@@ -6,16 +6,16 @@ function getUserSelection(promptMsg) {
     return prompt(promptMsg).toLowerCase();
 }
 
-function isSelectionValid(hand) {
-    return hand == ROCK_STR || hand == PAPER_STR || hand == SCISSORS_STR;
+function isSelectionValid(userSel) {
+    return userSel == ROCK_STR || userSel == PAPER_STR || userSel == SCISSORS_STR;
 }
 
 function game() {
-    let hand = getUserSelection("Enter either Rock, Paper or Scissors to begin playing.");
-    while(!isSelectionValid(hand)) {
-        hand = getUserSelection("Invalid input, please enter either Rock, Paper or Scissors.");
+    let userSel = getUserSelection("Enter either Rock, Paper or Scissors to begin playing.");
+    while(!isSelectionValid(userSel)) {
+        userSel = getUserSelection("Invalid input, please enter either Rock, Paper or Scissors.");
     }
-    return hand;
+    return userSel;
 }
 
 function computerPlay() {
@@ -30,5 +30,7 @@ function computerPlay() {
         return SCISSORS_STR;
     }
 }
+
+
 // console.log(game());
 console.log(computerPlay());
