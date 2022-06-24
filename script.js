@@ -1,25 +1,23 @@
 const ROCK_STR = "rock";
 const PAPER_STR = "paper";
 const SCISSORS_STR = "scissors"
+const DEFAULT_PROMPT = "Enter either Rock, Paper or Scissors to begin playing.";
+const ERROR_PROMPT = "Invalid input, please enter only Rock, Paper or Scissors."
 
-function getUserSelection(promptMsg) {
-    return prompt(promptMsg).toLowerCase();
+function getUserSelection() {
+    let userSel = prompt(DEFAULT_PROMPT);
+    while (!isSelectionValid(userSel)) {
+        userSel = prompt(ERROR_PROMPT);
+    }
+    return userSel;
 }
 
 function isSelectionValid(userSel) {
     return userSel == ROCK_STR || userSel == PAPER_STR || userSel == SCISSORS_STR;
 }
 
-function game() {
-    let userSel = getUserSelection("Enter either Rock, Paper or Scissors to begin playing.");
-    while(!isSelectionValid(userSel)) {
-        userSel = getUserSelection("Invalid input, please enter either Rock, Paper or Scissors.");
-    }
-    return userSel;
-}
-
 function computerPlay() {
-    const randomNum = Math.floor(Math.random()*3)
+    const randomNum = Math.floor(Math.random() * 3)
     if (randomNum === 0) {
         return ROCK_STR;
     }
@@ -31,6 +29,4 @@ function computerPlay() {
     }
 }
 
-
-// console.log(game());
-console.log(computerPlay());
+console.log(getUserSelection());
