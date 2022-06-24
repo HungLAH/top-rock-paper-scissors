@@ -18,4 +18,17 @@ function game() {
     return hand;
 }
 
-console.log(game());
+function computerPlay() {
+    const randomNum = Math.floor(Math.random()*3)
+    if (randomNum === 0) {
+        return ROCK_STR;
+    }
+    else if (randomNum == 1) {
+        return PAPER_STR;
+    }
+    else {
+        return SCISSORS_STR;
+    }
+}
+// console.log(game());
+console.log(computerPlay());
