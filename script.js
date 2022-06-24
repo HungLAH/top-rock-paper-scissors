@@ -29,4 +29,34 @@ function computerPlay() {
     }
 }
 
-console.log(getUserSelection());
+function playRound(playerSelection, computerSelection) {
+    console.log("Player selects " + playerSelection);
+    console.log("Computer selects " + computerSelection);
+    if (playerSelection == computerSelection) {
+        return "It's a draw baby!"
+    }
+    else {
+        switch (playerSelection) {
+            case ROCK_STR:
+                return (    
+                    (computerSelection == SCISSORS_STR) ? `You Won! ${playerSelection} beats ${computerSelection}` : 
+                    `You Lose! ${computerSelection} beats ${playerSelection}`
+                );
+            case PAPER_STR:
+                return (
+                    (computerSelection == ROCK_STR) ? `You Won! ${playerSelection} beats ${computerSelection}` : 
+                    `You Lose! ${computerSelection} beats ${playerSelection}` 
+                )
+            case SCISSORS_STR:
+                return (
+                    (computerSelection == PAPER_STR) ? `You Won! ${playerSelection} beats ${computerSelection}` : 
+                    `You Lose! ${computerSelection} beats ${playerSelection}`
+                )
+            default:
+                return null;
+        }
+    }
+    
+}
+
+console.log(playRound(getUserSelection(), computerPlay()));
