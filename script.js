@@ -59,4 +59,25 @@ function playRound(playerSelection, computerSelection) {
   }
 }
 
+function game() {
+  let playerScore = 0, computerScore = 0;
+  for (let i = 1; i <= 5; i++) {
+    let userSelection = getUserSelection(i);
+    let computerSelection = computerPlay();
+    let playerOutcome = playRound(userSelection, computerSelection);
+    if (playerOutcome.indexOf(WIN_OUTCOME) != -1) {
+      playerScore += 1;
+    }
+    else if (playerOutcome.indexOf(LOSE_OUTCOME) != -1) {
+      computerScore += 1;
+    }
+    else {
+      // do nothing
+    }
+    console.log(playerOutcome);
+    console.log(`Player Score: ${playerScore} - Computer Score: ${computerScore}`);
+  }
+  return playerScore == computerScore ? alert("It's a draw") : playerScore > computerScore ? alert("Player wins!") : alert("Player loses!");
+}
+
 console.log(game());
