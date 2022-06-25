@@ -8,16 +8,13 @@ const LOSE_OUTCOME = "Lose"
 
 function getUserSelection(roundNum = 1) {
   let userSel = prompt(`${DEFAULT_PROMPT} (Round ${roundNum})`);
-  while (!isSelectionValid(userSel)) {
+  while (userSel && !isSelectionValid(userSel)) {
     userSel = prompt(`${ERROR_PROMPT} (Round ${roundNum}`);
   }
   return userSel;
 }
 
 function isSelectionValid(userSel) {
-  if (userSel == undefined) {
-
-  }
   return userSel == ROCK_STR || userSel == PAPER_STR || userSel == SCISSORS_STR;
 }
 
@@ -63,6 +60,10 @@ function game() {
   let playerScore = 0, computerScore = 0;
   for (let i = 1; i <= 5; i++) {
     let userSelection = getUserSelection(i);
+    if (!userSelection) {
+      // User cancels
+      break;
+    }
     let computerSelection = computerPlay();
     let playerOutcome = playRound(userSelection, computerSelection);
     if (playerOutcome.indexOf(WIN_OUTCOME) != -1) {
