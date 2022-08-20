@@ -1,24 +1,17 @@
-const ROCK_STR = "rock";
-const PAPER_STR = "paper";
-const SCISSORS_STR = "scissors"
-const DEFAULT_PROMPT = "Enter either Rock, Paper or Scissors to begin playing.";
-const ERROR_PROMPT = "Invalid input, please enter only Rock, Paper or Scissors."
-const WIN_OUTCOME = "Win"
-const LOSE_OUTCOME = "Lose"
+const ROCK_STR = "Rock";
+const PAPER_STR = "Paper";
+const SCISSORS_STR = "Scissors"
+const WIN_OUTCOME = "win";
+const LOSE_OUTCOME = "lose";
+const DRAW_OUTCOME = "draw";
+let playerScore = 0, computerScore = 0;
 
-function getUserSelection(roundNum = 1) {
-  let userSel = prompt(`${DEFAULT_PROMPT} (Round ${roundNum})`).toLowerCase();
-  while (userSel && !isSelectionValid(userSel)) {
-    userSel = prompt(`${ERROR_PROMPT} (Round ${roundNum}`);
-  }
-  return userSel;
-}
+const btns = document.querySelectorAll(".btn");
+btns.forEach(btn => btn.addEventListener("click", playRound));
+const resultDiv = document.querySelector("#result");
+const selections = document.querySelector("#selection");
 
-function isSelectionValid(userSel) {
-  return userSel == ROCK_STR || userSel == PAPER_STR || userSel == SCISSORS_STR;
-}
-
-function computerPlay() {
+function genComputerSel() {
   const randomNum = Math.floor(Math.random() * 3)
   if (randomNum === 0) {
     return ROCK_STR;
@@ -31,54 +24,76 @@ function computerPlay() {
   }
 }
 
-function playRound(playerSelection, computerSelection) {
-  console.log(`Player selects ${playerSelection}, Computer selects ${computerSelection}`);
-  if (playerSelection == computerSelection) {
-    return "It's a draw baby!"
+function playRound(e) {
+  let computerSelection = genComputerSel();
+  let playerSelection = e.target.value;
+  selections.textContent = `Player chooses ${playerSelection}, Computer chooses ${computerSelection}`;
+  let outcome;
+  switch (playerSelection) {
+    case ROCK_STR:
+      if (computerSelection == ROCK_STR) {
+        outcome = DRAW_OUTCOME;
+      }
+      else if (computerSelection == PAPER_STR) {
+        outcome = LOSE_OUTCOME;
+      }
+      else {
+        outcome = WIN_OUTCOME;
+      }
+      break;
+      
+    case PAPER_STR:
+      if (computerSelection == PAPER_STR) {
+        outcome = DRAW_OUTCOME;
+      }
+      else if (computerSelection == SCISSORS_STR) {
+        outcome = LOSE_OUTCOME;
+      }
+      else {
+        outcome = WIN_OUTCOME;
+      }
+      break;
+    
+    case SCISSORS_STR:
+      if (computerSelection == SCISSORS_STR) {
+        outcome = DRAW_OUTCOME;
+      }
+      else if (computerSelection == ROCK_STR) {
+        outcome = LOSE_OUTCOME;
+      }
+      else {
+        outcome = WIN_OUTCOME;
+      }
+      break;
+
+    default:
+      break;
+  }
+  updateResult(outcome);
+}
+
+function updateResult(outcome) {
+  updateScore(outcome);
+  if (outcome == DRAW_OUTCOME) {
+    resultDiv.textContent = `It's a draw (Player: ${playerScore} - Computer: ${computerScore})`
   }
   else {
-    let playerOutcome;
-    switch (playerSelection) {
-      case ROCK_STR:
-        playerOutcome = (computerSelection == SCISSORS_STR) ? WIN_OUTCOME : LOSE_OUTCOME;
-        break;
-      case PAPER_STR:
-        playerOutcome = (computerSelection == ROCK_STR) ? WIN_OUTCOME : LOSE_OUTCOME;
-        break;
-      case SCISSORS_STR:
-        playerOutcome = (computerSelection == PAPER_STR) ? WIN_OUTCOME : LOSE_OUTCOME;
-        break;
-      default:
-        break;
-    }
-    return playerOutcome == WIN_OUTCOME ? `You ${WIN_OUTCOME}! ${playerSelection} beats ${computerSelection}` :
-      `You ${LOSE_OUTCOME}! ${computerSelection} beats ${playerSelection}`
+    resultDiv.textContent = `Player ${outcome}s! (Player: ${playerScore} - Computer: ${computerScore})`
+  }
+
+  if (playerScore == 5 || computerScore == 5) {
+    alert(`Player ${outcome}s the game (First to 5 points)!!`);
+    playerScore = 0;
+    computerScore = 0;
   }
 }
 
-function game() {
-  let playerScore = 0, computerScore = 0;
-  for (let i = 1; i <= 5; i++) {
-    let userSelection = getUserSelection(i);
-    if (!userSelection) {
-      // User cancels
-      break;
-    }
-    let computerSelection = computerPlay();
-    let playerOutcome = playRound(userSelection, computerSelection);
-    if (playerOutcome.indexOf(WIN_OUTCOME) != -1) {
-      playerScore += 1;
-    }
-    else if (playerOutcome.indexOf(LOSE_OUTCOME) != -1) {
-      computerScore += 1;
-    }
-    else {
-      // do nothing
-    }
-    console.log(playerOutcome);
-    console.log(`Player Score: ${playerScore} - Computer Score: ${computerScore}`);
+function updateScore(outcome) {
+  if (!outcome || outcome == DRAW_OUTCOME) return;
+  if (outcome == WIN_OUTCOME) {
+    playerScore++;
+  } 
+  else {
+    computerScore++;
   }
-  return playerScore == computerScore ? alert("It's a draw") : playerScore > computerScore ? alert("Player wins!") : alert("Player loses!");
 }
-
-console.log(game());
