@@ -7,7 +7,7 @@ const WIN_OUTCOME = "Win"
 const LOSE_OUTCOME = "Lose"
 
 function getUserSelection(roundNum = 1) {
-  let userSel = prompt(`${DEFAULT_PROMPT} (Round ${roundNum})`);
+  let userSel = prompt(`${DEFAULT_PROMPT} (Round ${roundNum})`).toLowerCase();
   while (userSel && !isSelectionValid(userSel)) {
     userSel = prompt(`${ERROR_PROMPT} (Round ${roundNum}`);
   }
